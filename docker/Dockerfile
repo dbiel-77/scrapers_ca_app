@@ -25,7 +25,7 @@ RUN find /usr/local/lib/python3.10/dist-packages/pupa -type f -name '*.py' \
       -e 's|from django.contrib.postgres.fields import JSONField|from django.db.models import JSONField|g' \
       {} +
 
-# Bring in your project
+
 WORKDIR /src
 RUN mkdir scrapers-ca-app
 COPY . /src/scrapers-ca-app
