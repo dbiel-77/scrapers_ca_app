@@ -6,8 +6,7 @@ set -e
 
 echo "Setting up a Docker environment."
 
-docker pull ubuntu:17.10
-docker-compose build
+docker-compose build --no-cache
 docker-compose up -d
 
 echo ""
@@ -29,6 +28,7 @@ else
   docker-compose exec scrapers-ca-app sudo -u postgres psql -c 'ALTER USER root WITH SUPERUSER;'
   docker-compose exec scrapers-ca-app sudo -u postgres psql -c "ALTER USER root WITH PASSWORD 'root';"
   docker-compose exec scrapers-ca-app sudo -u postgres createdb pupa
+  echo "createdb pupa 1"
   docker-compose exec scrapers-ca-app sudo -u postgres psql pupa -c "CREATE EXTENSION postgis;"
   echo ""
   echo "Modifying pupa_settings.py with root:root if it has not yet"
@@ -41,9 +41,9 @@ else
   echo "Set up the application"
   docker-compose exec scrapers-ca-app /bin/bash -i -c '
   pip3 install -r requirements.txt && \
-  createdb pupa && \
-  python manage.py migrate --noinput && \
-  pupa dbinit ca'
+  python3 manage.py migrate --noinput && \
+  pupa dbinit ca && \
+  python3 manage.py update'
 fi
 
 echo ""

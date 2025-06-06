@@ -1,12 +1,40 @@
-version: '3'
-
 services:
+  db:
+    image: postgres:14
+    restart: always
+    env_file:
+      - .env
+    environment:
+      POSTGRES_DB:   ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    volumes:
+      - db_data:/var/lib/postgresql/data
+
   scrapers-ca-app:
     build: .
+    depends_on:
+      - db
+    env_file:
+      - .env
+    environment:
+      # Use the same names you have in .env
+      DATABASE_URL:   "postgres://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db:5432/${POSTGRES_DB}"
+      DJANGO_SECRET_KEY: "${DJANGO_SECRET_KEY}"
+      PRODUCTION:        "${PRODUCTION}"
     volumes:
-      - "../:/src/scrapers-ca-app"
-    ports:
-      - "80"
+      - ../:/src/scrapers-ca-app
+      - ../_data:/src/_data
     working_dir: /src/scrapers-ca-app
-    restart: always
-    command: "tail -f /dev/null"
+    ports:
+      - "8080:80"
+    command:
+      - sh
+      - -c
+      - |
+        python3 manage.py migrate --noinput && \
+        gunicorn 'scrapers_ca_app.wsgi:application' --bind 0.0.0.0:80 --workers 3 --log-level info 
+
+volumes:
+  db_data:
+

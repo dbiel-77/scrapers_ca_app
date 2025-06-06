@@ -27,7 +27,7 @@ SECRET_KEY = os.getenv('DJANGO_SECRET_KEY', '4y+vddl4y0&h)kl2hmo1iv8_8*s#fta#rt)
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = not os.getenv('PRODUCTION', '')
 
-ALLOWED_HOSTS = ['scrapers.herokuapp.com', 'scrapers-ca.herokuapp.com', '127.0.0.1']
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -108,7 +108,12 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 # @see https://devcenter.heroku.com/articles/django-assets
 
 # Parse database configuration from `$DATABASE_URL`.
-DATABASES = {'default': dj_database_url.config(default='postgis://localhost/pupa')}
+DATABASE_URL = os.environ['DATABASE_URL']
+
+# Parse the real DATABASE_URL
+DATABASES = {
+    'default': dj_database_url.config(default=DATABASE_URL)
+}
 DATABASES['default']['ENGINE'] = 'django.contrib.gis.db.backends.postgis'
 
 # @see https://devcenter.heroku.com/articles/postgis#geodjango-setup
