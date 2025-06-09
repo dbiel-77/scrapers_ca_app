@@ -18,9 +18,14 @@ Once Docker is set up (deployed), open a shell like this:
 
 ## Usage
 
-To run a scraper, e.g. `ca_on`, open a shell as above, and:
+To run all scrapers:
 
-    pupa update ca_on
+    python3 manage.py update
+
+To run a specific scraper (eg. ca_on):
+
+    python3 manage.py update ca_on
+
 
 To wipe the database:
 
