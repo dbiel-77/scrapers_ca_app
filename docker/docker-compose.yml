@@ -1,6 +1,8 @@
 services:
   db:
-    image: postgres:14
+    image: postgis/postgis:14-3.3
+    ports:
+      - "5432:5432"
     restart: always
     env_file:
       - .env
@@ -24,6 +26,7 @@ services:
     volumes:
       - ../:/src/scrapers-ca-app
       - ../_data:/src/_data
+      - ../../scrapers-ca:/src/scrapers-ca
     working_dir: /src/scrapers-ca-app
     ports:
       - "8080:80"

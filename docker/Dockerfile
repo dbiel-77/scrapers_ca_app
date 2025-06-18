@@ -1,13 +1,16 @@
 FROM ubuntu:22.04
 
 ENV DEBIAN_FRONTEND=noninteractive
+ENV PYTHONPATH="/src/scrapers-ca:${PYTHONPATH}"
+
 
 # Base setup
 RUN apt-get -y update
 # PostgreSQL
 RUN apt-get -y install postgresql libpq-dev postgresql-client postgresql-client-common gdal-bin postgresql-contrib postgis
 # Python
-RUN apt-get -y install python3 python3-pip python3-dev build-essential python3-invoke python3-lxml python3-unidecode python3-regex libxml2-dev libxslt-dev lib32z1-dev git sudo
+# RUN apt-get -y install python3 python3-pip python3-dev build-essential python3-invoke python3-lxml python3-unidecode python3-regex libxml2-dev libxslt-dev lib32z1-dev git sudo
+RUN apt-get -y install python3 python3-pip python3-dev build-essential python3-invoke python3-lxml python3-unidecode python3-regex libxml2-dev libxslt-dev git sudo
 RUN apt-get clean
 RUN pip3 install virtualenv virtualenvwrapper ndg_httpsclient flake8
 

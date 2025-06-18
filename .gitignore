@@ -2,3 +2,4 @@
 staticfiles
 /_cache
 /_data
+docker/.env

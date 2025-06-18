@@ -124,6 +124,7 @@ def represent(request, module_name):
             'gender': gender,
             'offices': json.dumps(get_offices(membership)),
             'extra': json.dumps(get_extra(person)),
+            'boundary': "boundary"
         }
 
         sources = list(person.sources.all())
