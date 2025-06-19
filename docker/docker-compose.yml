@@ -26,7 +26,6 @@ services:
     volumes:
       - ../:/src/scrapers-ca-app
       - ../_data:/src/_data
-      - ../../scrapers-ca:/src/scrapers-ca
     working_dir: /src/scrapers-ca-app
     ports:
       - "8080:80"

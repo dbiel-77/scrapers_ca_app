@@ -1,7 +1,6 @@
 FROM ubuntu:22.04
 
 ENV DEBIAN_FRONTEND=noninteractive
-ENV PYTHONPATH="/src/scrapers-ca:${PYTHONPATH}"
 
 
 # Base setup
